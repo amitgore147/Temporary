@@ -1,73 +1,83 @@
-If the `incident.notify_caller` event doesn't exist, that explains why the notification isn't being sent. To fix this, you will need to **create the event** and ensure it's properly configured. Follow these steps to create the event and ensure the notification works:
+To create a **script action**, an **event**, and a **notification** in ServiceNow to notify a caller of an incident, follow these steps:
 
-### Step 1: Create the `incident.notify_caller` Event
-1. **Navigate to the Event Registration**:
-   - Go to **System Policy** → **Events** → **Event Registry**.
-   
-2. **Create a New Event**:
-   - Click **New** to create a new event.
-   
-3. **Fill in the Event Details**:
-   - **Event Name**: Enter the event name as `incident.notify_caller`.
-   - **Table**: Set the table to **Incident [incident]**.
-   - **Description**: Add a description for clarity (e.g., "Notify the caller when the incident is updated").
+### 1. **Create a Script Action**
 
-4. **Submit**: After entering the details, click **Submit** to save the event.
+A Script Action in ServiceNow is typically executed when an event is fired. We'll create a script action that runs when the event is triggered (e.g., incident creation or update).
 
-### Step 2: Trigger the Event in Your Script
-Now that the event has been registered, update your script to use the new event. The script you provided already contains the correct code to trigger the event using `gs.eventQueue()`:
+#### Steps to create a Script Action:
+1. Navigate to **System Policy > Events > Script Actions**.
+2. Click **New** to create a new Script Action.
+3. Fill out the required fields:
+   - **Name**: NotifyCallerOfIncident (or a similar name)
+   - **Table**: Incident
+   - **Event Name**: (We will create the event next)
+   - **Condition**: Add any conditions if necessary (e.g., only for Priority 1 incidents).
+   - **Script**: Add the script logic to notify the caller.
 
+Example script:
 ```javascript
-(function() {
-    // Get the incident record
-    var inc = new GlideRecord('incident');
-    inc.get(event.instance);
+(function executeRule(current, previous /*null when async*/) {
+    // Get the caller's email
+    var callerEmail = current.caller_id.email;
+    var incidentNumber = current.number;
     
-    // Prepare notification details
-    var caller = inc.caller_id.getRefRecord(); // Get the caller record
-    var incidentNumber = inc.number; // Get the incident number
-    
-    // Prepare a notification message
-    var message = 'Incident ' + incidentNumber + ' has been updated.';
-    
-    // Send the event to notify the caller
-    gs.eventQueue('incident.notify_caller', inc, caller, message);
-})();
+    // Trigger the notification
+    gs.eventQueue('incident.notify.caller', current, callerEmail, incidentNumber);
+})(current, previous);
 ```
 
-### Step 3: Create a Notification for the Event
-Now that the event exists, you need to create a notification that responds to this event.
+4. Save the Script Action.
 
-1. **Navigate to Notifications**:
-   - Go to **System Notification** → **Notifications**.
+### 2. **Create an Event**
 
-2. **Create a New Notification**:
-   - Click **New** to create a new notification.
+Events are triggered and can be used to notify users via notifications.
 
-3. **Configure the Notification**:
-   - **Name**: Enter a name like "Notify Caller of Incident".
-   - **Table**: Set the table to **Incident [incident]**.
-   - **Event Name**: Select the event you just created, `incident.notify_caller`.
-   - **Who will receive**: Set the recipient as the **Caller**. You can use the **Caller** field from the incident.
+#### Steps to create an Event:
+1. Navigate to **System Policy > Events > Registry**.
+2. Click **New** to create a new event.
+3. Fill out the fields:
+   - **Name**: incident.notify.caller
+   - **Table**: Incident
+   - **Description**: Event to notify the caller when an incident is updated or created.
+4. Save the event.
 
-4. **Message Content**:
-   - You can use the `${event.parm3}` placeholder to include the custom message from your script:
-     ```html
-     <p>${event.parm3}</p> <!-- Message sent from the script -->
-     ```
+### 3. **Create a Notification**
 
-5. **Conditions (Optional)**:
-   - You can specify conditions under **When to send**, for example, if you only want this to trigger under specific circumstances (e.g., when the incident is active).
+A Notification in ServiceNow sends messages to users based on conditions or events.
 
-6. **Submit**: Save the notification by clicking **Submit**.
+#### Steps to create a Notification:
+1. Navigate to **System Notification > Email > Notifications**.
+2. Click **New** to create a new notification.
+3. Fill out the required fields:
+   - **Name**: Notify Caller of Incident
+   - **Table**: Incident
+   - **When to Send**: Trigger on the **Event** we created (`incident.notify.caller`).
+   - **Who will Receive**: 
+     - Add **Email (Script)** and use this script:
+       ```javascript
+       return event.parm1;
+       ```
+   - **What it will contain**: Write the email template to include relevant details.
 
-### Step 4: Test the Event and Notification
-- Now that the event is created and the notification is set up, you can test it:
-  - Create or update an incident to trigger the event via your script.
-  - The event `incident.notify_caller` should now trigger the notification, and the caller should receive the email.
+Example message:
+```
+Hello,
 
-### Step 5: Verify in Email Logs
-- After testing, go to **System Mailboxes** → **Outbound** → **Sent** to verify that the email was sent.
-- Also, check **System Logs** → **Events** to ensure that the `incident.notify_caller` event is being triggered.
+An incident has been created/updated. Here are the details:
 
-By following these steps, you will create the necessary event and set up the notification, allowing the caller to receive notifications as intended.
+Incident Number: ${event.parm2}
+Short Description: ${current.short_description}
+Status: ${current.state}
+
+Please contact the service desk for further details.
+
+Thank you.
+```
+
+4. Save the notification.
+
+### 4. **Test the Setup**
+1. Create or update an incident in ServiceNow.
+2. The event should fire, triggering the script action and sending the notification to the caller’s email.
+
+This completes the setup for notifying the caller when an incident is created or updated.
