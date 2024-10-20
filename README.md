@@ -1,61 +1,48 @@
-To create a "Notify Caller of Incident" Script Action in ServiceNow, you'll need to follow these steps. Script Actions are typically used to trigger server-side scripts that respond to certain events, such as when an incident is created or updated. Here's a step-by-step guide:
+To create a Script Action in ServiceNow to notify a caller of an incident by selecting an existing event, follow these steps:
 
-### Step 1: Log in to ServiceNow
-1. Log in to your ServiceNow instance with sufficient permissions (e.g., admin or developer role).
+### Step 1: Navigate to "Script Actions"
+1. Log into your ServiceNow instance.
+2. In the left-hand navigation menu, type **"Script Actions"** in the filter navigator.
+3. Click on **Script Actions** under **System Policy**.
 
-### Step 2: Navigate to Script Actions
-1. In the left-hand application navigator, type **"Script Actions"** in the search bar.
-2. Click **Script Actions** under the **System Policy** module.
+### Step 2: Create a New Script Action
+1. In the Script Actions list, click **New** to create a new Script Action.
+2. Fill in the fields:
+   - **Name**: Enter a name for the script action (e.g., **Notify Caller of Incident**).
+   - **Event Name**: Use the magnifying glass icon to search for and select an existing event, such as **incident.assigned** or a custom event if it's already created.
+   - **Condition**: Add any condition to trigger this action (optional).
 
-### Step 3: Create a New Script Action
-1. Click **New** to create a new Script Action.
-
-### Step 4: Fill in the Script Action Details
-1. **Name**: Enter a name for the Script Action, e.g., "Notify Caller of Incident".
-2. **Table**: Select the **Incident** table from the dropdown (this is the table that the script will be triggered from).
-3. **Condition**: If you want to trigger the notification when a specific condition is met, you can write a condition script here. For example:
-   ```javascript
-   current.state == 2 && current.caller_id // Notify when incident state changes to "In Progress" and caller exists
-   ```
-
-### Step 5: Write the Script
-In the **Script** field, write the script that will notify the caller. Below is an example that sends an email to the caller:
+### Step 3: Write the Script
+1. Scroll down to the **Script** field, where you'll write the JavaScript code to send a notification. A sample script could look like this:
 
 ```javascript
-// Check if the incident has a valid caller
-if (current.caller_id) {
-    var email = new GlideEmailOutbound(); // Instantiate the email object
-    email.setFrom('support@example.com'); // Set the sender's email address
-    email.setSubject('Incident Update: ' + current.number); // Set the subject of the email
-    email.setBody('Hello ' + current.caller_id.getDisplayValue() + ',\n\n' + 
-                  'Your incident (' + current.number + ') has been updated to the following state: ' + 
-                  current.getDisplayValue('state') + '.\n\n' + 
-                  'Please contact us if you need further assistance.\n\nRegards,\nService Desk');
-    email.setTo(current.caller_id.email); // Set the recipient's email address
-    email.send(); // Send the email
-}
+(function() {
+    // Get the incident record
+    var inc = new GlideRecord('incident');
+    inc.get(event.instance);
+    
+    // Prepare notification details
+    var callerId = inc.caller_id; // Get the caller ID
+    var incidentNumber = inc.number; // Get the incident number
+    
+    // Prepare a notification message (Modify as per your requirement)
+    var message = 'Incident ' + incidentNumber + ' has been updated.';
+    
+    // Send notification (can be a custom email, SMS, or other channels as configured)
+    gs.eventQueue('incident.notify_caller', inc, callerId, message);
+})();
 ```
 
-### Step 6: Save the Script Action
-1. Click **Submit** or **Update** to save the Script Action.
+   Here’s what this script does:
+   - It retrieves the **incident** record.
+   - Extracts the **caller_id** and **incident number** from the record.
+   - Sends a notification message to the caller using the `gs.eventQueue` method.
 
-### Step 7: Set Up a Business Rule (Optional)
-You can use a **Business Rule** to trigger this Script Action. Follow these steps:
+### Step 4: Save the Script Action
+1. After entering your script, click **Submit** to save the script action.
+2. Your new Script Action is now created and will trigger based on the selected event.
 
-1. Navigate to **Business Rules** in the left-hand application navigator.
-2. Click **New** to create a new Business Rule.
-3. In the **When to run** section, set:
-   - **Table**: Incident
-   - **When**: After (to run the rule after the incident is updated)
-4. In the **Advanced** section, write the script to trigger the Script Action, like this:
-   ```javascript
-   gs.eventQueue('incident.notify_caller', current, current.caller_id, current.number);
-   ```
-
-5. Save the Business Rule.
-
-### Step 8: Test the Script Action
-1. Create or update an incident that meets your conditions (e.g., an incident with a valid caller and a certain state).
-2. The caller should receive an email notification as defined in the Script Action.
-
-This process allows you to notify callers automatically whenever an incident is created or updated based on the condition set in your Script Action.
+### Step 5: Test the Script Action
+1. To ensure the script is working, you can create or update an incident that meets the event criteria (like incident assignment) and check if the notification is sent to the caller.
+  
+By following these steps, you can create a custom Script Action to notify callers of an incident in ServiceNow. You can adjust the notification logic based on your specific business requirements.
