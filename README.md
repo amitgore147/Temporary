@@ -1,11 +1,20 @@
-Here's a professional summary tailored for a beginner ServiceNow Developer:
+Here’s a set of **Technical Skills** for a beginner ServiceNow Developer:
 
 ---
 
-**Professional Summary:**
+**Technical Skills:**
 
-Entry-level ServiceNow Developer with foundational knowledge in ServiceNow platform development, ITSM processes, and basic customization. Certified in ServiceNow with hands-on experience from coursework and personal projects, focusing on scripting, form configurations, and workflow automations. Strong eagerness to learn and apply ServiceNow best practices to support IT operations. Collaborative and detail-oriented, with a solid understanding of the ServiceNow interface and an enthusiasm for building efficient, user-friendly solutions that meet business needs.
+- **ServiceNow Modules**: IT Service Management (ITSM), Incident Management, Problem Management, Change Management, Service Catalog
+- **Scripting**: JavaScript, Glide API (basic understanding)
+- **ServiceNow Configuration**: UI Policies, Business Rules, Client Scripts, Notifications, Form and List Layouts
+- **Workflow and Automation**: Flow Designer, Workflow Editor
+- **User Interface**: ServiceNow Studio, Service Portal (basic customization)
+- **Integration**: REST API, Web Services (fundamental knowledge)
+- **Version Control**: Git (basic)
+- **ITIL Knowledge**: Basic understanding of ITIL concepts
+- **Database**: Understanding of Tables, Records, and Relationships in ServiceNow
+- **Reporting**: Creating Reports, Dashboards in ServiceNow
 
 ---
 
-This version emphasizes your foundational skills, certifications, and eagerness to grow in the field.
+This list reflects a beginner level, covering essential areas of the ServiceNow platform and related technologies.
