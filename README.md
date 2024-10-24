@@ -1,86 +1,63 @@
-Absolutely! Let’s add the remaining variables for the types not yet covered in your catalog item, utilizing as many of ServiceNow’s variable types as possible:
+**Samiksha Mehra**
 
-Extended List of Remaining Variable Types:
-Select Box
+**Business Analyst**
 
-Label: Preferred Laptop Color
-Type: Select Box
-Name: laptop_color
-Choices:
-Silver
-Black
-Space Gray
-Mandatory: No
-UI Macro
+📞 +91 9602065425 | ✉️ samiksha.mehra@infosys.com
 
-Label: Custom Warranty Information
-Type: UI Macro
-Name: warranty_information
-Macro Name: custom_warranty_macro
-Mandatory: No
-List Collector
+---
 
-Label: Choose External Devices
-Type: List Collector
-Name: external_devices
-Table: Catalog Items [sc_cat_item] (Or another relevant table)
-Mandatory: No
-Multiple Choice
+### **Professional Summary:**
 
-Label: Warranty Coverage
-Type: Multiple Choice
-Name: warranty_coverage
-Choices:
-1-Year
-2-Years
-3-Years
-Mandatory: No
-Multiple Checkbox
+Results-driven Business Analyst with a strong focus in the ServiceNow domain. Adept at analyzing, documenting, and enhancing business processes within ITSM and CAD modules. Expertise in managing complex ServiceNow projects, facilitating digital transformations, and ensuring the alignment of technical solutions with business goals. A strong communicator with a deep knowledge of ServiceNow's capabilities, automation, and strategies for continuous improvement to enhance IT service delivery.
 
-Label: Select Additional Features
-Type: Multiple Checkbox
-Name: additional_features
-Choices:
-Touchscreen
-Fingerprint Reader
-Backlit Keyboard
-Mandatory: No
-IP Address
+---
 
-Label: Network IP Address
-Type: IP Address
-Name: network_ip_address
-Mandatory: No
-Break
+### **Technical and Domain Skills:**
 
-Type: Break
-Break Type: Line Separator
-Name: break_line_1
-HTML
+- **ServiceNow Expertise:** ITSM, CAD, ITOM, CMDB
+- **Development Skills:** Workflow automation, Business rules, UI policies
+- **CMDB Fundamentals:** Thorough understanding of configuration management
+- **Data Analysis:** Proficient in Excel
+- **Programming:** Basic proficiency in SQL, JavaScript, HTML (for understanding ServiceNow scripting)
+- **Project Management Methodologies:** Agile (Scrum), Waterfall
+- **Tools:** JIRA, ServiceNow Agile Development
 
-Label: Warranty Terms and Conditions
-Type: HTML
-Name: warranty_terms
-Default Value: <p>Please read the <b>warranty terms</b> carefully before selecting the coverage.</p>
-Mandatory: No
-Label
+---
 
-Label: Important Note
-Type: Label
-Name: important_note
-Default Value: “Please ensure the correct quantity is selected before submitting your request.”
-Mandatory: No
-Container Start
+### **Education:**
 
-Label: Laptop Specifications
-Type: Container Start
-Name: laptop_specifications_container
-Container Type: 2 Columns
-Container End
+**Bachelor of Technology in Electronics & Communication Engineering**  
+Invertis University, Bareilly | Graduated with 79.3% aggregate
 
-Type: Container End
-Name: laptop_specifications_container_end
-Summary of Additional Variable Types:
-**Select
-A network error occurred. Please check your connection and try again. If this issue persists please contact us through our help center at help.openai.com.
+---
+
+### **Certifications:**
+
+- ServiceNow Certified System Administrator
+- ServiceNow Certified Application Developer
+- ServiceNow Certified Implementation Specialist (ITSM)
+- ITIL v4 Foundation Certification
+- Infosys Global Agile Developer Certification
+
+---
+
+### **Core Competencies:**
+
+- Strong communication and interpersonal skills
+- Exceptional problem-solving abilities
+- Leadership and initiative in project environments
+- Time management and ability to meet deadlines
+- Effective collaboration and teamwork
+
+---
+
+### **Achievements:**
+
+- **Insta Award (July 2022):** Recognized for highest number of deliverables in the quarter.
+- **Insta Award (October 2022):** Awarded for continuous delivery and exceptional teamwork.
+- **Star Award:** Commended for taking the lead on initiatives and driving team success.
+
+---
+
+This version presents the same information but in a unique format with varied wording to differentiate from the original.
 
